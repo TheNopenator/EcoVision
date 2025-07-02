@@ -1,0 +1,18 @@
+from django.contrib import admin
+from .models import TrashDetection, TrashCategory, CleanupTask
+
+@admin.register(TrashDetection)
+class TrashDetectionAdmin(admin.ModelAdmin):
+    list_display = ['id', 'detected_at', 'processed']
+    list_filter = ['detected_at', 'processed']
+    readonly_fields = ['detected_at']
+
+@admin.register(TrashCategory)
+class TrashCategoryAdmin(admin.ModelAdmin):
+    list_display = ['name', 'color']
+
+@admin.register(CleanupTask)
+class CleanupTaskAdmin(admin.ModelAdmin):
+    list_display = ['id', 'status', 'assigned_to', 'created_at']
+    list_filter = ['status', 'created_at']
+    readonly_fields = ['created_at']
