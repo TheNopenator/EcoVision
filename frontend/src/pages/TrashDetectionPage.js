@@ -40,9 +40,9 @@ class TrashDetectionPage {
         this.container.innerHTML = `
             <div class="page-header">
                 <button id="back-btn" class="back-button">
-                    <span>←</span> 返回
-                </button>
-                <h1 class="page-title">🗑️ 智能垃圾检测</h1>
+                                    <span>←</span> Back
+            </button>
+            <h1 class="page-title">🗑️ Smart Trash Detection</h1>
                 <div class="title-glow"></div>
             </div>
             
@@ -70,25 +70,25 @@ class TrashDetectionPage {
                     <div class="camera-controls">
                         <button id="start-camera" class="control-btn primary">
                             <span class="btn-icon">📷</span>
-                            <span class="btn-text">启动相机</span>
+                            <span class="btn-text">Start Camera</span>
                         </button>
                         <button id="capture-image" class="control-btn secondary">
                             <span class="btn-icon">🎯</span>
-                            <span class="btn-text">拍照检测</span>
+                            <span class="btn-text">Capture & Detect</span>
                         </button>
                         <button id="stop-camera" class="control-btn danger">
                             <span class="btn-icon">⏹️</span>
-                            <span class="btn-text">停止相机</span>
+                            <span class="btn-text">Stop Camera</span>
                         </button>
                     </div>
                 </div>
                 
                 <div class="results-section">
-                    <h2 class="section-title">检测结果</h2>
+                    <h2 class="section-title">Detection Results</h2>
                     <div id="detection-results" class="results-container">
                         <div class="no-results">
                             <div class="robot-icon">🤖</div>
-                            <p>等待检测...</p>
+                            <p>Waiting for detection...</p>
                         </div>
                     </div>
                 </div>
@@ -96,15 +96,15 @@ class TrashDetectionPage {
             
             <div class="stats-panel">
                 <div class="stat-item">
-                    <span class="stat-label">检测次数</span>
+                    <span class="stat-label">Detection Count</span>
                     <span class="stat-value" id="detection-count">0</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-label">识别成功</span>
+                    <span class="stat-label">Success Count</span>
                     <span class="stat-value" id="success-count">0</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-label">准确率</span>
+                    <span class="stat-label">Accuracy Rate</span>
                     <span class="stat-value" id="accuracy-rate">0%</span>
                 </div>
             </div>
@@ -152,29 +152,8 @@ class TrashDetectionPage {
                 margin-bottom: 30px;
                 display: flex;
                 align-items: center;
-                justify-content: space-between;
-            }
-            
-            .back-button {
-                background: rgba(255, 255, 255, 0.1);
-                border: 2px solid rgba(255, 255, 255, 0.3);
-                border-radius: 50px;
-                padding: 15px 25px;
-                color: white;
-                font-size: 16px;
-                font-weight: bold;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                backdrop-filter: blur(10px);
-                display: flex;
-                align-items: center;
-                gap: 10px;
-            }
-            
-            .back-button:hover {
-                background: rgba(255, 255, 255, 0.2);
-                border-color: rgba(255, 255, 255, 0.5);
-                transform: translateY(-2px);
+                justify-content: center;
+                margin-top: 80px;
             }
             
             .page-title {
@@ -571,7 +550,7 @@ class TrashDetectionPage {
             video.srcObject = this.cameraStream
             
             // 显示成功消息
-            this.showNotification('相机已启动', 'success')
+            this.showNotification('Camera started', 'success')
             
             // 启用拍照按钮
             const captureBtn = this.container.querySelector('#capture-image')
@@ -579,8 +558,8 @@ class TrashDetectionPage {
             captureBtn.style.opacity = '1'
             
         } catch (error) {
-            console.error('无法访问相机:', error)
-            this.showNotification('无法访问相机，请检查权限设置', 'error')
+            console.error('Cannot access camera:', error)
+            this.showNotification('Cannot access camera, please check permissions', 'error')
         }
     }
     
@@ -592,7 +571,7 @@ class TrashDetectionPage {
             const video = this.container.querySelector('#camera-video')
             video.srcObject = null
             
-            this.showNotification('相机已关闭', 'info')
+            this.showNotification('Camera stopped', 'info')
             
             // 禁用拍照按钮
             const captureBtn = this.container.querySelector('#capture-image')
@@ -603,7 +582,7 @@ class TrashDetectionPage {
     
     async captureImage() {
         if (!this.cameraStream) {
-            this.showNotification('请先启动相机', 'warning')
+            this.showNotification('Please start camera first', 'warning')
             return
         }
         
@@ -649,7 +628,7 @@ class TrashDetectionPage {
     
     async sendImageForDetection(imageBlob) {
         try {
-            this.showNotification('正在检测...', 'info')
+            this.showNotification('Detecting...', 'info')
             
             const formData = new FormData()
             formData.append('image', imageBlob, 'trash-detection.jpg')
@@ -667,8 +646,8 @@ class TrashDetectionPage {
                 throw new Error('检测请求失败')
             }
         } catch (error) {
-            console.error('图像检测错误:', error)
-            this.showNotification('图像检测失败，请重试', 'error')
+            console.error('Image detection error:', error)
+            this.showNotification('Image detection failed, please try again', 'error')
         }
     }
     
@@ -684,7 +663,7 @@ class TrashDetectionPage {
             resultItem.innerHTML = `
                 <div class="result-header">
                     <span class="result-type">🗑️ ${result.trash_type}</span>
-                    <span class="result-confidence">置信度: ${result.confidence}%</span>
+                    <span class="result-confidence">Confidence: ${result.confidence}%</span>
                 </div>
                 <div class="result-details">
                     ${result.message}
@@ -692,17 +671,17 @@ class TrashDetectionPage {
             `
             resultsContainer.appendChild(resultItem)
             
-            this.showNotification(`检测成功！发现${result.trash_type}`, 'success')
+                            this.showNotification(`Detection successful! Found ${result.trash_type}`, 'success')
         } else {
             const noResultItem = document.createElement('div')
             noResultItem.className = 'no-results'
             noResultItem.innerHTML = `
                 <div class="robot-icon">✅</div>
-                <p>未检测到垃圾</p>
+                <p>No trash detected</p>
             `
             resultsContainer.appendChild(noResultItem)
             
-            this.showNotification('未检测到垃圾', 'info')
+            this.showNotification('No trash detected', 'info')
         }
         
         // 保存结果

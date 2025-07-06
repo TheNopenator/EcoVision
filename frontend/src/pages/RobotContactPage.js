@@ -38,10 +38,10 @@ class RobotContactPage {
         
         this.container.innerHTML = `
             <div class="page-header">
-                <button id="back-btn" class="back-button">
-                    <span>←</span> 返回
-                </button>
-                <h1 class="page-title">🤖 机器人服务中心</h1>
+                            <button id="back-btn" class="back-button">
+                <span>←</span> Back
+            </button>
+            <h1 class="page-title">🤖 Robot Service Center</h1>
             </div>
             
             <div class="main-content">
@@ -60,81 +60,81 @@ class RobotContactPage {
                             </div>
                         </div>
                         <div class="robot-status">
-                            <span id="robot-status-text">待命中</span>
+                            <span id="robot-status-text">Standby</span>
                         </div>
                     </div>
                     
                     <div class="request-form">
-                        <h3>垃圾拾取请求</h3>
+                        <h3>Trash Pickup Request</h3>
                         <div class="form-group">
-                            <label>当前位置</label>
+                            <label>Current Location</label>
                             <div class="location-display">
                                 <span class="location-icon">📍</span>
-                                <span id="current-location">获取位置中...</span>
+                                <span id="current-location">Getting location...</span>
                                 <button id="refresh-location" class="icon-btn">🔄</button>
                             </div>
                         </div>
                         
                         <div class="form-group">
-                            <label>垃圾类型</label>
+                            <label>Trash Types</label>
                             <div class="trash-types">
                                 <label class="checkbox-item">
                                     <input type="checkbox" value="plastic" checked>
                                     <span class="checkmark"></span>
-                                    <span class="label-text">🥤 塑料制品</span>
+                                    <span class="label-text">🥤 Plastic Items</span>
                                 </label>
                                 <label class="checkbox-item">
                                     <input type="checkbox" value="paper">
                                     <span class="checkmark"></span>
-                                    <span class="label-text">📄 纸制品</span>
+                                    <span class="label-text">📄 Paper Items</span>
                                 </label>
                                 <label class="checkbox-item">
                                     <input type="checkbox" value="metal">
                                     <span class="checkmark"></span>
-                                    <span class="label-text">🥫 金属制品</span>
+                                    <span class="label-text">🥫 Metal Items</span>
                                 </label>
                                 <label class="checkbox-item">
                                     <input type="checkbox" value="glass">
                                     <span class="checkmark"></span>
-                                    <span class="label-text">🍺 玻璃制品</span>
+                                    <span class="label-text">🍺 Glass Items</span>
                                 </label>
                             </div>
                         </div>
                         
                         <div class="form-group">
-                            <label>紧急程度</label>
+                            <label>Priority Level</label>
                             <div class="priority-selector">
                                 <input type="radio" id="low" name="priority" value="low" checked>
-                                <label for="low" class="priority-btn low">🟢 普通</label>
+                                <label for="low" class="priority-btn low">🟢 Normal</label>
                                 
                                 <input type="radio" id="medium" name="priority" value="medium">
-                                <label for="medium" class="priority-btn medium">🟡 紧急</label>
+                                <label for="medium" class="priority-btn medium">🟡 Urgent</label>
                                 
                                 <input type="radio" id="high" name="priority" value="high">
-                                <label for="high" class="priority-btn high">🔴 极急</label>
+                                <label for="high" class="priority-btn high">🔴 Emergency</label>
                             </div>
                         </div>
                         
                         <div class="form-group">
-                            <label>附加说明</label>
-                            <textarea id="additional-notes" placeholder="请描述垃圾的具体位置或其他需要注意的事项..."></textarea>
+                            <label>Additional Notes</label>
+                            <textarea id="additional-notes" placeholder="Please describe the specific location of the trash or other important details..."></textarea>
                         </div>
                         
                         <button id="send-request" class="send-btn">
                             <span class="btn-icon">🚀</span>
-                            <span class="btn-text">发送请求</span>
+                            <span class="btn-text">Send Request</span>
                         </button>
                     </div>
                 </div>
                 
                 <div class="status-panel">
-                    <h3>实时状态</h3>
+                    <h3>Real-time Status</h3>
                     <div class="robot-grid">
                         <div class="robot-card active" id="robot-1">
                             <div class="robot-mini-avatar">🤖</div>
                             <div class="robot-info">
-                                <div class="robot-name">清洁员-001</div>
-                                <div class="robot-location">工业园区</div>
+                                <div class="robot-name">Cleaner-001</div>
+                                <div class="robot-location">Industrial Park</div>
                                 <div class="robot-battery">🔋 95%</div>
                             </div>
                             <div class="robot-status-indicator online"></div>
@@ -143,8 +143,8 @@ class RobotContactPage {
                         <div class="robot-card" id="robot-2">
                             <div class="robot-mini-avatar">🤖</div>
                             <div class="robot-info">
-                                <div class="robot-name">清洁员-002</div>
-                                <div class="robot-location">商业中心</div>
+                                <div class="robot-name">Cleaner-002</div>
+                                <div class="robot-location">Business Center</div>
                                 <div class="robot-battery">🔋 87%</div>
                             </div>
                             <div class="robot-status-indicator online"></div>
@@ -153,8 +153,8 @@ class RobotContactPage {
                         <div class="robot-card" id="robot-3">
                             <div class="robot-mini-avatar">🤖</div>
                             <div class="robot-info">
-                                <div class="robot-name">清洁员-003</div>
-                                <div class="robot-location">维护中</div>
+                                <div class="robot-name">Cleaner-003</div>
+                                <div class="robot-location">Maintenance</div>
                                 <div class="robot-battery">🔋 45%</div>
                             </div>
                             <div class="robot-status-indicator maintenance"></div>
@@ -164,11 +164,11 @@ class RobotContactPage {
             </div>
             
             <div class="requests-history">
-                <h3>请求历史</h3>
+                <h3>Request History</h3>
                 <div id="requests-list" class="requests-container">
                     <div class="no-requests">
                         <div class="empty-icon">📋</div>
-                        <p>暂无请求记录</p>
+                        <p>No request records</p>
                     </div>
                 </div>
             </div>
@@ -216,7 +216,8 @@ class RobotContactPage {
                 margin-bottom: 30px;
                 display: flex;
                 align-items: center;
-                justify-content: space-between;
+                justify-content: center;
+                margin-top: 80px;
             }
             
             .robot-contact-page .page-title {
@@ -736,7 +737,7 @@ class RobotContactPage {
     
     async getUserLocation() {
         const locationDisplay = this.container.querySelector('#current-location')
-        locationDisplay.textContent = '获取位置中...'
+        locationDisplay.textContent = 'Getting location...'
         
         try {
             if (!navigator.geolocation) {
@@ -758,22 +759,22 @@ class RobotContactPage {
             
             // 模拟地址解析
             const addresses = [
-                '深圳市南山区科技园',
-                '深圳市福田区CBD',
-                '深圳市宝安区国际机场',
-                '深圳市龙岗区坂田',
-                '深圳市罗湖区东门'
+                'Silicon Valley Technology Park',
+                'Central Business District',
+                'International Airport Area',
+                'Bantian Industrial Zone',
+                'Downtown Shopping District'
             ]
             
             const address = addresses[Math.floor(Math.random() * addresses.length)]
             locationDisplay.textContent = address
             
-            this.showNotification('位置获取成功', 'success')
+            this.showNotification('Location acquired successfully', 'success')
             
         } catch (error) {
-            console.error('获取位置失败:', error)
-            locationDisplay.textContent = '位置获取失败，使用默认位置'
-            this.showNotification('位置获取失败，将使用默认位置', 'warning')
+            console.error('Failed to get location:', error)
+            locationDisplay.textContent = 'Failed to get location, using default location'
+            this.showNotification('Failed to get location, using default location', 'warning')
         }
     }
     
@@ -788,7 +789,7 @@ class RobotContactPage {
         
         // 更新机器人状态
         const robotName = selectedCard.querySelector('.robot-name').textContent
-        this.container.querySelector('#robot-status-text').textContent = `已选择 ${robotName}`
+                    this.container.querySelector('#robot-status-text').textContent = `Selected ${robotName}`
         
         // 动画效果
         gsap.fromTo(selectedCard, 
@@ -809,14 +810,14 @@ class RobotContactPage {
             const selectedRobot = this.container.querySelector('.robot-card.active')
             
             if (selectedTrashTypes.length === 0) {
-                this.showNotification('请至少选择一种垃圾类型', 'warning')
+                this.showNotification('Please select at least one trash type', 'warning')
                 return
             }
             
             // 显示发送动画
             const sendBtn = this.container.querySelector('#send-request')
             const originalText = sendBtn.querySelector('.btn-text').textContent
-            sendBtn.querySelector('.btn-text').textContent = '发送中...'
+            sendBtn.querySelector('.btn-text').textContent = 'Sending...'
             sendBtn.disabled = true
             
             // 发送请求到后端
@@ -840,7 +841,7 @@ class RobotContactPage {
                 const result = await response.json()
                 this.displayRequestResult(result)
                 this.addToRequestHistory(result)
-                this.showNotification('机器人请求发送成功！', 'success')
+                this.showNotification('Robot request sent successfully!', 'success')
                 
                 // 重置表单
                 this.resetForm()
@@ -849,8 +850,8 @@ class RobotContactPage {
             }
             
         } catch (error) {
-            console.error('机器人请求错误:', error)
-            this.showNotification('机器人请求失败，请重试', 'error')
+            console.error('Robot request error:', error)
+            this.showNotification('Robot request failed, please try again', 'error')
         } finally {
             // 恢复按钮状态
             const sendBtn = this.container.querySelector('#send-request')
@@ -862,7 +863,7 @@ class RobotContactPage {
     displayRequestResult(result) {
         // 更新机器人状态
         this.container.querySelector('#robot-status-text').textContent = 
-            `${result.robot_id} 已接收任务，预计${result.eta}分钟后到达`
+            `${result.robot_id} has received the task, ETA ${result.eta} minutes`
         
         // 更新机器人头像动画
         const robotBody = this.container.querySelector('.robot-body')
@@ -905,11 +906,11 @@ class RobotContactPage {
         requestItem.className = 'request-item'
         requestItem.innerHTML = `
             <div class="request-header">
-                <span class="request-id">请求 #${result.request_id}</span>
+                                    <span class="request-id">Request #${result.request_id}</span>
                 <span class="request-status ${result.status}">${this.getStatusText(result.status)}</span>
             </div>
             <div class="request-details">
-                机器人: ${result.robot_id} | 预计到达: ${result.eta}分钟 | 时间: ${new Date().toLocaleTimeString()}
+                Robot: ${result.robot_id} | ETA: ${result.eta} minutes | Time: ${new Date().toLocaleTimeString()}
             </div>
         `
         
@@ -931,11 +932,11 @@ class RobotContactPage {
     
     getStatusText(status) {
         const statusMap = {
-            'pending': '等待中',
-            'dispatched': '已派遣',
-            'en_route': '路途中',
-            'arrived': '已到达',
-            'completed': '已完成'
+            'pending': 'Pending',
+            'dispatched': 'Dispatched',
+            'en_route': 'En Route',
+            'arrived': 'Arrived',
+            'completed': 'Completed'
         }
         return statusMap[status] || status
     }

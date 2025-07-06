@@ -41,119 +41,119 @@ class CooperationPage {
         
         this.container.innerHTML = `
             <div class="page-header">
-                <button id="back-btn" class="back-button">
-                    <span>←</span> 返回
-                </button>
-                <h1 class="page-title">🤝 商业合作</h1>
+                            <button id="back-btn" class="back-button">
+                <span>←</span> Back
+            </button>
+            <h1 class="page-title">🤝 Business Cooperation</h1>
             </div>
             
             <div class="main-content">
                 <div class="cooperation-form">
                     <div class="form-header">
                         <div class="partnership-icon">🤝</div>
-                        <h2>加入 EcoVision 生态圈</h2>
-                        <p>与我们一起构建可持续发展的未来</p>
+                                            <h2>Join the EcoVision Ecosystem</h2>
+                    <p>Build a sustainable future with us</p>
                     </div>
                     
                     <form id="cooperation-form">
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="company-name">公司名称 *</label>
+                                <label for="company-name">Company Name *</label>
                                 <input type="text" id="company-name" required>
                             </div>
                             <div class="form-group">
-                                <label for="contact-person">联系人 *</label>
+                                <label for="contact-person">Contact Person *</label>
                                 <input type="text" id="contact-person" required>
                             </div>
                         </div>
                         
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="email">邮箱地址 *</label>
+                                <label for="email">Email Address *</label>
                                 <input type="email" id="email" required>
                             </div>
                             <div class="form-group">
-                                <label for="phone">联系电话</label>
+                                <label for="phone">Phone Number</label>
                                 <input type="tel" id="phone">
                             </div>
                         </div>
                         
                         <div class="form-group">
-                            <label for="cooperation-type">合作类型 *</label>
+                            <label for="cooperation-type">Cooperation Type *</label>
                             <select id="cooperation-type" required>
-                                <option value="">请选择合作类型</option>
-                                <option value="technology">技术合作</option>
-                                <option value="investment">投资合作</option>
-                                <option value="supply">供应链合作</option>
-                                <option value="distribution">渠道分销</option>
-                                <option value="research">研发合作</option>
-                                <option value="other">其他合作</option>
+                                <option value="">Please select cooperation type</option>
+                                <option value="technology">Technology Partnership</option>
+                                <option value="investment">Investment Partnership</option>
+                                <option value="supply">Supply Chain Partnership</option>
+                                <option value="distribution">Distribution Partnership</option>
+                                <option value="research">Research & Development</option>
+                                <option value="other">Other Cooperation</option>
                             </select>
                         </div>
                         
                         <div class="form-group">
-                            <label for="company-size">公司规模</label>
+                            <label for="company-size">Company Size</label>
                             <div class="radio-group">
                                 <label class="radio-item">
                                     <input type="radio" name="company-size" value="startup">
                                     <span class="radio-mark"></span>
-                                    初创企业 (1-50人)
+                                    Startup (1-50 employees)
                                 </label>
                                 <label class="radio-item">
                                     <input type="radio" name="company-size" value="medium">
                                     <span class="radio-mark"></span>
-                                    中型企业 (51-500人)
+                                    Medium (51-500 employees)
                                 </label>
                                 <label class="radio-item">
                                     <input type="radio" name="company-size" value="large">
                                     <span class="radio-mark"></span>
-                                    大型企业 (500+人)
+                                    Large (500+ employees)
                                 </label>
                             </div>
                         </div>
                         
                         <div class="form-group">
-                            <label for="cooperation-details">合作详情 *</label>
-                            <textarea id="cooperation-details" rows="6" placeholder="请详细描述您的合作意向、预期目标、投资规模等信息..." required></textarea>
+                            <label for="cooperation-details">Cooperation Details *</label>
+                            <textarea id="cooperation-details" rows="6" placeholder="Please describe your cooperation intentions, expected goals, investment scale, and other information..." required></textarea>
                         </div>
                         
                         <div class="form-group">
                             <label class="checkbox-item">
                                 <input type="checkbox" id="agree-terms" required>
                                 <span class="checkmark"></span>
-                                我同意 <a href="#" class="link">服务条款</a> 和 <a href="#" class="link">隐私政策</a>
+                                I agree to the <a href="#" class="link">Terms of Service</a> and <a href="#" class="link">Privacy Policy</a>
                             </label>
                         </div>
                         
                         <button type="submit" class="submit-btn">
                             <span class="btn-icon">🚀</span>
-                            <span class="btn-text">提交合作申请</span>
+                            <span class="btn-text">Submit Application</span>
                         </button>
                     </form>
                 </div>
                 
                 <div class="partnership-benefits">
-                    <h3>合作优势</h3>
+                    <h3>Partnership Benefits</h3>
                     <div class="benefits-grid">
                         <div class="benefit-item">
                             <div class="benefit-icon">🌱</div>
-                            <h4>绿色环保</h4>
-                            <p>共同推进环保事业，创造可持续价值</p>
+                            <h4>Green Environmental</h4>
+                            <p>Advance environmental causes together and create sustainable value</p>
                         </div>
                         <div class="benefit-item">
                             <div class="benefit-icon">🚀</div>
-                            <h4>技术创新</h4>
-                            <p>前沿AI技术，引领行业发展趋势</p>
+                            <h4>Technology Innovation</h4>
+                            <p>Cutting-edge AI technology leading industry development trends</p>
                         </div>
                         <div class="benefit-item">
                             <div class="benefit-icon">💰</div>
-                            <h4>商业价值</h4>
-                            <p>广阔市场前景，丰厚投资回报</p>
+                            <h4>Commercial Value</h4>
+                            <p>Broad market prospects and substantial investment returns</p>
                         </div>
                         <div class="benefit-item">
                             <div class="benefit-icon">🤝</div>
-                            <h4>共赢合作</h4>
-                            <p>资源共享，优势互补，共同成长</p>
+                            <h4>Win-Win Cooperation</h4>
+                            <p>Resource sharing, complementary advantages, and mutual growth</p>
                         </div>
                     </div>
                 </div>
@@ -184,6 +184,17 @@ class CooperationPage {
                 background: linear-gradient(180deg, #FFA726, #FFB74D);
                 transform: scale(1.1);
                 box-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
+            }
+            
+            .cooperation-page .page-header {
+                position: relative;
+                width: 100%;
+                max-width: 1400px;
+                margin-bottom: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-top: 80px;
             }
             
             .cooperation-page .page-title {
@@ -473,7 +484,7 @@ class CooperationPage {
         
         // 验证必填字段
         if (!data.company_name || !data.contact_person || !data.email || !data.cooperation_type || !data.cooperation_details) {
-            this.showNotification('请填写所有必填字段', 'warning')
+            this.showNotification('Please fill in all required fields', 'warning')
             return
         }
         
@@ -481,7 +492,7 @@ class CooperationPage {
         const originalText = submitBtn.querySelector('.btn-text').textContent
         
         try {
-            submitBtn.querySelector('.btn-text').textContent = '提交中...'
+            submitBtn.querySelector('.btn-text').textContent = 'Submitting...'
             submitBtn.disabled = true
             
             const response = await fetch('/api/cooperation/', {
@@ -494,7 +505,7 @@ class CooperationPage {
             
             if (response.ok) {
                 const result = await response.json()
-                this.showNotification('合作申请提交成功！我们会在2个工作日内联系您', 'success')
+                this.showNotification('Cooperation application submitted successfully! We will contact you within 2 business days', 'success')
                 this.resetForm()
                 
                 // 成功动画
@@ -506,7 +517,7 @@ class CooperationPage {
             
         } catch (error) {
             console.error('提交错误:', error)
-            this.showNotification('提交失败，请重试', 'error')
+            this.showNotification('Submission failed, please try again', 'error')
         } finally {
             submitBtn.querySelector('.btn-text').textContent = originalText
             submitBtn.disabled = false

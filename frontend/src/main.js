@@ -7,6 +7,10 @@ import RobotContactPage from './pages/RobotContactPage.js'
 import CooperationPage from './pages/CooperationPage.js'
 // 导入有意义的几何体工具类
 import MeaningfulGeometries from './utils/MeaningfulGeometries.js'
+// 导入滚动管理器
+import ScrollManager from './utils/ScrollManager.js'
+// 导入垃圾元素管理器
+import TrashElementsManager from './utils/TrashElementsManager.js'
 
 class EcoVisionApp {
     constructor() {
@@ -21,6 +25,8 @@ class EcoVisionApp {
         this.pages = {}
         this.backgroundMesh = null
         this.animationFrame = null
+        this.scrollManager = new ScrollManager()
+        this.trashElementsManager = null
         
         this.init()
         this.setupEventListeners()
@@ -58,6 +64,12 @@ class EcoVisionApp {
         
         // 创建3D按钮
         this.create3DButtons()
+        
+        // 创建垃圾元素管理器
+        this.trashElementsManager = new TrashElementsManager(this.scene)
+        
+        // 为按钮创建垃圾分类环绕动画
+        this.createTrashClassificationRings()
         
         // 显示修复完成通知
         this.showFixedNotification()
@@ -221,7 +233,7 @@ class EcoVisionApp {
                 position: [-2.3, 0.6, 0], 
                 color: 0x4CAF50,
                 hoverColor: 0x66BB6A,
-                label: '垃圾检测',
+                label: 'Trash Detection',
                 icon: '🗑️',
                 geometryType: 'trashcan'
             },
@@ -230,7 +242,7 @@ class EcoVisionApp {
                 position: [0, 0.6, 0], 
                 color: 0x2196F3,
                 hoverColor: 0x42A5F5,
-                label: '联系机器人',
+                label: 'Contact Robot',
                 icon: '🤖',
                 geometryType: 'robot'
             },
@@ -239,7 +251,7 @@ class EcoVisionApp {
                 position: [2.3, 0.6, 0], 
                 color: 0xFF9800,
                 hoverColor: 0xFFA726,
-                label: '商业合作',
+                label: 'Cooperation',
                 icon: '🤝',
                 geometryType: 'handshake'
             }
@@ -348,6 +360,14 @@ class EcoVisionApp {
                 return { y: 0, z: 0.2 }
         }
     }
+    
+    createTrashClassificationRings() {
+        this.buttons3D.forEach(button => {
+            const buttonType = button.userData.id
+            const buttonPosition = new THREE.Vector3().copy(button.position)
+            this.trashElementsManager.createTrashClassificationRing(buttonPosition, buttonType)
+        })
+    }
 
     createTextLabel(group, labelText, iconText, color, offset = { y: 0, z: 0.2 }) {
         // 创建画布用于文字纹理
@@ -435,18 +455,7 @@ class EcoVisionApp {
             this.onMouseClick(event)
         })
         
-        // UI按钮事件
-        document.getElementById('trash-detection-btn').addEventListener('click', () => {
-            this.navigateToPage('trash-detection')
-        })
-        
-        document.getElementById('robot-contact-btn').addEventListener('click', () => {
-            this.navigateToPage('robot-contact')
-        })
-        
-        document.getElementById('cooperation-btn').addEventListener('click', () => {
-            this.navigateToPage('cooperation')
-        })
+        // 2D UI按钮已移除，仅使用3D交互
     }
     
     onMouseClick(event) {
@@ -520,6 +529,11 @@ class EcoVisionApp {
                 ring.scale.set(1, 1, 1)
             }
         })
+        
+        // 触发垃圾收集动画
+        if (this.trashElementsManager) {
+            this.trashElementsManager.triggerTrashCollection(buttonGroup.position)
+        }
     }
     
     navigateToPage(pageId) {
@@ -533,13 +547,37 @@ class EcoVisionApp {
             this.hideHomeScreen()
         }
         
+        // 清除之前的滚动进度条
+        this.scrollManager.removeScrollProgress()
+        
         // 显示新页面
         if (pageId !== 'home') {
             if (this.pages[pageId]) {
                 this.pages[pageId].show()
+                
+                // 设置页面滚动容器
+                setTimeout(() => {
+                    const pageContainer = this.pages[pageId].container
+                    if (pageContainer) {
+                        this.scrollManager.setCurrentPageContainer(pageContainer)
+                        
+                        // 根据页面类型设置滚动进度条颜色
+                        let progressColor = '#2196F3'
+                        if (pageId === 'trash-detection') {
+                            progressColor = '#4CAF50'
+                        } else if (pageId === 'robot-contact') {
+                            progressColor = '#2196F3'
+                        } else if (pageId === 'cooperation') {
+                            progressColor = '#FF9800'
+                        }
+                        
+                        this.scrollManager.addScrollProgress(progressColor)
+                    }
+                }, 100)
             }
         } else {
             this.showHomeScreen()
+            this.scrollManager.hideScrollButton()
         }
     }
     
@@ -607,6 +645,11 @@ class EcoVisionApp {
             this.particles.material.uniforms.time.value = time
             this.particles.rotation.y += 0.001
             this.particles.rotation.x += 0.0005
+        }
+        
+        // 更新垃圾元素管理器
+        if (this.trashElementsManager) {
+            this.trashElementsManager.update(time)
         }
         
         // 更新握手几何体中的星星动画
@@ -832,9 +875,9 @@ class EcoVisionApp {
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span style="font-size: 20px;">✅</span>
                 <div>
-                    <div>修复完成！</div>
+                    <div>System Ready!</div>
                     <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
-                        3D按钮文字已正确显示，滚动条已优化
+                        3D buttons and scrollbars are optimized
                     </div>
                 </div>
             </div>
@@ -875,6 +918,11 @@ class EcoVisionApp {
         Object.values(this.pages).forEach(page => {
             if (page.destroy) page.destroy()
         })
+        
+        // 清理垃圾元素管理器
+        if (this.trashElementsManager) {
+            this.trashElementsManager.destroy()
+        }
         
         // 清理Three.js资源
         this.scene.traverse((child) => {

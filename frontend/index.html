@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoVision - 生态视觉垃圾处理系统</title>
+    <title>EcoVision - Smart Waste Management System</title>
     <style>
         * {
             margin: 0;
@@ -73,6 +73,117 @@
             scroll-behavior: smooth;
         }
         
+        /* 统一的返回按钮样式 */
+        .back-button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            padding: 15px 25px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .back-button:active {
+            transform: translateY(0) scale(0.95);
+        }
+        
+        .back-button span:first-child {
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .back-button:hover span:first-child {
+            transform: translateX(-3px);
+        }
+        
+        /* 页面标题优化 */
+        .page-title {
+            font-size: 48px;
+            font-weight: bold;
+            text-align: center;
+            margin: 0;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes titleGlow {
+            from { text-shadow: 0 0 30px rgba(255, 255, 255, 0.1); }
+            to { text-shadow: 0 0 40px rgba(255, 255, 255, 0.3); }
+        }
+        
+        /* 响应式优化 */
+        @media (max-width: 768px) {
+            .back-button {
+                padding: 12px 20px;
+                font-size: 14px;
+                top: 15px;
+                left: 15px;
+            }
+            
+            .page-title {
+                font-size: 32px;
+            }
+        }
+        
+        /* 键盘导航支持 */
+        .back-button:focus {
+            outline: 2px solid rgba(255, 255, 255, 0.5);
+            outline-offset: 2px;
+        }
+        
+        /* 滚动到顶部按钮 */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            z-index: 999;
+        }
+        
+        .scroll-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .scroll-to-top:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-5px) scale(1.1);
+        }
+        
         #canvas-container {
             position: fixed;
             top: 0;
@@ -92,40 +203,7 @@
             pointer-events: none;
         }
         
-        .button-container {
-            position: absolute;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 50px;
-            pointer-events: all;
-        }
-        
-        .action-button {
-            padding: 20px 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 15px;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            text-align: center;
-            min-width: 150px;
-        }
-        
-        .action-button:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.5);
-            transform: translateY(-2px);
-        }
-        
-        .action-button:active {
-            transform: translateY(0);
-        }
+        /* 2D按钮已删除，只保留3D交互 */
         
         #camera-modal {
             position: fixed;
@@ -224,22 +302,8 @@
     
     <div id="ui-overlay">
         <div class="title">EcoVision</div>
-        <div class="subtitle">智能垃圾处理生态系统</div>
-        
-        <div class="button-container">
-            <button class="action-button" id="trash-detection-btn">
-                <div>🗑️</div>
-                <div>垃圾检测</div>
-            </button>
-            <button class="action-button" id="robot-contact-btn">
-                <div>🤖</div>
-                <div>联系机器人</div>
-            </button>
-            <button class="action-button" id="cooperation-btn">
-                <div>🤝</div>
-                <div>商业合作</div>
-            </button>
-        </div>
+                    <div class="subtitle">Smart Waste Management Ecosystem</div>
+        <!-- 2D按钮已移除，仅使用3D交互 -->
     </div>
     
     <!-- 相机模态框 -->
@@ -248,8 +312,8 @@
             <button class="close-btn" id="close-camera">&times;</button>
             <video id="camera-video" autoplay playsinline></video>
             <div id="camera-controls">
-                <button class="camera-btn" id="capture-btn">拍照检测</button>
-                <button class="camera-btn" id="stop-camera">停止</button>
+                            <button class="camera-btn" id="capture-btn">Capture & Detect</button>
+            <button class="camera-btn" id="stop-camera">Stop</button>
             </div>
         </div>
     </div>
