@@ -31,28 +31,28 @@
 ## 🚀 快速开始
 
 ### 一键启动
-```bash
+   ```bash
 ./start-project.sh
 ```
 
 ### 手动启动
 
 #### 后端服务
-```bash
-cd backend
+   ```bash
+   cd backend
 python -m venv venv
-source venv/bin/activate
+   source venv/bin/activate
 pip install -r requirements.txt
 python manage.py migrate
-python manage.py runserver
-```
+   python manage.py runserver
+   ```
 
 #### 前端服务
-```bash
-cd frontend
+   ```bash
+   cd frontend
 npm install
-npm run dev
-```
+   npm run dev
+   ```
 
 ### 停止服务
 ```bash
