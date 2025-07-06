@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 # Define your class names (must be in the same order as in your training .yaml file)
-CLASS_NAMES = ['cardboard', 'glass', 'metal', 'paper', 'plastic', 'trash']
+CLASS_NAMES = ['trash', 'no trash']
 
 # Load the ONNX model
 # You will get this .onnx file after exporting your trained YOLO model
