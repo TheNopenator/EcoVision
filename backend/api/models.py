@@ -43,3 +43,32 @@ class CleanupTask(models.Model):
     
     def __str__(self):
         return f"Task for detection {self.detection.id} - {self.status}"
+
+class RobotRequest(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('dispatched', 'Dispatched'),
+        ('en_route', 'En Route'),
+        ('arrived', 'Arrived'),
+        ('completed', 'Completed'),
+    ]
+    
+    location = models.JSONField(default=dict)  # {"lat": 0.0, "lng": 0.0}
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    request_time = models.DateTimeField(default=timezone.now)
+    eta_minutes = models.IntegerField(default=30)
+    robot_id = models.CharField(max_length=50, blank=True)
+    completed_at = models.DateTimeField(null=True, blank=True)
+    
+    def __str__(self):
+        return f"Robot Request {self.id} - {self.status}"
+
+class CooperationRequest(models.Model):
+    content = models.TextField()
+    contact_info = models.CharField(max_length=255, blank=True)
+    status = models.CharField(max_length=20, default='pending')
+    created_at = models.DateTimeField(default=timezone.now)
+    responded_at = models.DateTimeField(null=True, blank=True)
+    
+    def __str__(self):
+        return f"Cooperation Request {self.id} - {self.status}"

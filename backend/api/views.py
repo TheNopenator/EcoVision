@@ -8,12 +8,14 @@ from django.utils import timezone
 import os
 import json
 
-from .models import TrashDetection, TrashCategory, CleanupTask
+from .models import TrashDetection, TrashCategory, CleanupTask, RobotRequest, CooperationRequest
 from .serializers import (
     TrashDetectionSerializer, 
     TrashCategorySerializer, 
     CleanupTaskSerializer,
-    ImageUploadSerializer
+    ImageUploadSerializer,
+    RobotRequestSerializer,
+    CooperationRequestSerializer
 )
 from .cv_model import trash_detector
 
@@ -138,3 +140,129 @@ class CleanupTaskViewSet(viewsets.ModelViewSet):
         pending = self.queryset.filter(status='pending')
         serializer = self.get_serializer(pending, many=True)
         return Response(serializer.data)
+
+# New API endpoints for the frontend
+from rest_framework.decorators import api_view, parser_classes
+from rest_framework.parsers import MultiPartParser, FormParser
+import random
+
+@api_view(['POST'])
+@parser_classes([MultiPartParser, FormParser])
+def detect_trash(request):
+    """Simple trash detection endpoint for frontend"""
+    if 'image' not in request.FILES:
+        return Response({'error': 'No image provided'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    image = request.FILES['image']
+    
+    # Save uploaded image
+    image_name = f"uploads/detect_{timezone.now().strftime('%Y%m%d_%H%M%S')}_{image.name}"
+    image_path = default_storage.save(image_name, ContentFile(image.read()))
+    
+    try:
+        # For demo purposes, simulate trash detection
+        # In production, you would use actual computer vision models
+        trash_types = ['plastic_bottle', 'paper_cup', 'food_waste', 'cigarette_butt', 'metal_can']
+        
+        # Simulate detection result
+        trash_detected = random.choice([True, False])
+        
+        if trash_detected:
+            trash_type = random.choice(trash_types)
+            confidence = random.randint(75, 95)
+            
+            # Create detection record
+            detection = TrashDetection.objects.create(
+                image_url=default_storage.url(image_path),
+                detected_objects=[trash_type],
+                confidence_scores=[confidence],
+                location=request.data.get('location', {})
+            )
+            
+            return Response({
+                'trash_detected': True,
+                'trash_type': trash_type,
+                'confidence': confidence,
+                'detection_id': detection.id,
+                'message': f'检测到{trash_type}，置信度{confidence}%'
+            })
+        else:
+            return Response({
+                'trash_detected': False,
+                'message': '未检测到垃圾'
+            })
+            
+    except Exception as e:
+        return Response({
+            'error': f'检测失败: {str(e)}'
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['POST'])
+def contact_robot(request):
+    """Contact robot for trash pickup"""
+    try:
+        data = json.loads(request.body) if request.body else {}
+        location = data.get('location', {'lat': 0, 'lng': 0})
+        
+        # Create robot request
+        robot_request = RobotRequest.objects.create(
+            location=location,
+            status='pending',
+            eta_minutes=random.randint(15, 45),
+            robot_id=f'ROBOT_{random.randint(1000, 9999)}'
+        )
+        
+        # Simulate robot dispatch
+        robot_request.status = 'dispatched'
+        robot_request.save()
+        
+        return Response({
+            'success': True,
+            'request_id': robot_request.id,
+            'eta': robot_request.eta_minutes,
+            'robot_id': robot_request.robot_id,
+            'status': robot_request.status,
+            'message': f'机器人{robot_request.robot_id}已接收任务，预计{robot_request.eta_minutes}分钟后到达'
+        })
+        
+    except Exception as e:
+        return Response({
+            'error': f'机器人联系失败: {str(e)}'
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['POST'])
+def cooperation_request(request):
+    """Submit cooperation request"""
+    try:
+        data = json.loads(request.body) if request.body else {}
+        content = data.get('content', '')
+        
+        if not content:
+            return Response({
+                'error': '请提供合作内容'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Create cooperation request
+        cooperation = CooperationRequest.objects.create(
+            content=content,
+            status='pending'
+        )
+        
+        return Response({
+            'success': True,
+            'request_id': cooperation.id,
+            'message': '合作请求已提交，我们会在2个工作日内与您联系'
+        })
+        
+    except Exception as e:
+        return Response({
+            'error': f'合作请求失败: {str(e)}'
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class RobotRequestViewSet(viewsets.ModelViewSet):
+    queryset = RobotRequest.objects.all()
+    serializer_class = RobotRequestSerializer
+
+class CooperationRequestViewSet(viewsets.ModelViewSet):
+    queryset = CooperationRequest.objects.all()
+    serializer_class = CooperationRequestSerializer

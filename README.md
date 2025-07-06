@@ -1,236 +1,156 @@
-# EcoVision
+# EcoVision - 智能垃圾处理生态系统
 
-The software side of EcoVision's up-and-coming robot, Roz, whose aim is to scan for trash in public spaces and relay real-time information to janitors to help them efficiently clean it up.
+## 🌍 项目概述
+EcoVision 是一个基于计算机视觉和人工智能的智能垃圾处理系统，具有炫酷的 3D 界面和先进的垃圾检测功能。系统提供三大核心功能：垃圾智能检测、机器人垃圾拾取服务以及商业合作平台。
 
-## 🌟 Features
+## ✨ 主要特性
+- **🎯 3D 交互界面**: 基于 Three.js 的沉浸式 3D 体验
+- **📱 实时垃圾检测**: 使用相机实时检测垃圾并识别类型
+- **🤖 机器人服务**: 一键联系垃圾拾取机器人
+- **🤝 商业合作**: 商业合作请求和管理系统
+- **🎨 精美动画**: 流畅的按钮动画和视觉效果
+- **📊 数据管理**: 完整的后端数据管理系统
 
-- **AI-Powered Trash Detection**: Advanced computer vision model to identify different types of trash
-- **Real-time Processing**: Upload images and get instant detection results
-- **Task Management**: Automatically create and manage cleanup tasks
-- **Interactive Dashboard**: View statistics, charts, and recent activity
-- **Modern UI**: Beautiful, responsive Vue.js frontend
-- **RESTful API**: Django REST Framework backend with MongoDB
+## 🚀 技术栈
+- **前端**: Three.js + GSAP + Vite
+- **后端**: Django REST Framework
+- **数据库**: SQLite (开发) / PostgreSQL (生产)
+- **计算机视觉**: 自定义垃圾识别模型
+- **部署**: Docker 容器化
 
-## 🛠️ Tech Stack
+## 📦 安装指南
 
-### Backend
-- **Django 4.2.7** - Web framework
-- **Django REST Framework** - API development
-- **MongoDB** - Database (via Djongo)
-- **OpenCV & TensorFlow** - Computer vision and ML
-- **Python 3.8+** - Programming language
+### 环境要求
+- Python 3.8+
+- Node.js 16+
+- npm 或 yarn
 
-### Frontend
-- **Vue.js 3** - Frontend framework
-- **Vite** - Build tool
-- **Chart.js** - Data visualization
-- **Axios** - HTTP client
-- **Leaflet** - Maps (coming soon)
+### 快速启动
+使用一键启动脚本：
+```bash
+./start-servers.sh
+```
 
-## 🚀 Quick Start
+### 手动启动
 
-### Prerequisites
-
-1. **Python 3.8+** - [Download here](https://www.python.org/downloads/)
-2. **Node.js 16+** - [Download here](https://nodejs.org/)
-3. **MongoDB** - [Installation guide](https://docs.mongodb.com/manual/installation/)
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone <your-repo-url>
-   cd EcoVision
-   ```
-
-2. **Run the setup script**
-   ```bash
-   chmod +x setup.sh
-   ./setup.sh
-   ```
-
-3. **Start MongoDB** (if not already running)
-   ```bash
-   # macOS with Homebrew
-   brew services start mongodb/brew/mongodb-community
-   
-   # Or start manually
-   mongod --config /usr/local/etc/mongod.conf
-   ```
-
-4. **Start the backend server**
+#### 后端设置
+1. 进入后端目录：
    ```bash
    cd backend
-   source venv/bin/activate
+   ```
+
+2. 创建并激活虚拟环境：
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # Windows: venv\Scripts\activate
+   ```
+
+3. 安装依赖：
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. 运行迁移：
+   ```bash
+   python manage.py migrate
+   ```
+
+5. 创建超级用户（可选）：
+   ```bash
+   python manage.py createsuperuser
+   ```
+
+6. 启动开发服务器：
+   ```bash
    python manage.py runserver
    ```
 
-5. **Start the frontend development server**
+#### 前端设置
+1. 进入前端目录：
    ```bash
    cd frontend
+   ```
+
+2. 安装依赖：
+   ```bash
+   npm install
+   ```
+
+3. 启动开发服务器：
+   ```bash
    npm run dev
    ```
 
-6. **Open your browser**
-   - Frontend: http://localhost:5173
-   - Backend API: http://localhost:8000/api/
-   - Admin Panel: http://localhost:8000/admin/
+## 🎮 使用说明
 
-### Quick Start Script
+### 主界面功能
+1. **垃圾检测**: 点击垃圾检测按钮，使用相机拍照识别垃圾类型
+2. **联系机器人**: 请求垃圾拾取机器人服务
+3. **商业合作**: 提交商业合作申请
 
-For convenience, you can use the provided script to start both servers:
+### 3D 交互
+- 鼠标悬停在 3D 按钮上查看动画效果
+- 点击 3D 按钮或 UI 按钮都可以触发相应功能
+- 背景粒子系统提供沉浸式体验
 
-```bash
-./start-dev.sh
-```
+### API 端点
+- `POST /api/detect-trash/` - 简化的垃圾检测接口
+- `POST /api/contact-robot/` - 机器人联系接口
+- `POST /api/cooperation/` - 商业合作接口
+- `GET /api/detections/` - 获取检测记录
+- `GET /api/robot-requests/` - 获取机器人请求记录
 
-This will start both the Django backend and Vue frontend simultaneously.
+## 🔧 开发指南
 
-## 🔧 Development Workflow
-
-### Making Changes
-
-1. **Backend Changes**: Edit files in the `backend/` directory
-   - Django will automatically reload when you save files
-   - Database migrations: `python manage.py makemigrations` then `python manage.py migrate`
-
-2. **Frontend Changes**: Edit files in the `frontend/src/` directory  
-   - Vite will automatically reload the browser when you save files
-
-3. **Environment Variables**: 
-   - Copy `backend/.env.example` to `backend/.env`
-   - Update values as needed (never commit `.env` files)
-
-### Adding Dependencies
-
-- **Backend**: Add to `backend/requirements.txt` then run `pip install -r requirements.txt`
-- **Frontend**: Run `npm install package-name` in the `frontend/` directory
-
-### Version Control
-
-The project includes a comprehensive `.gitignore` file that excludes:
-- Environment files (`.env`, `.env.local`, etc.)
-- Virtual environments (`venv/`, `env/`)
-- Node modules (`node_modules/`)
-- Database files (`db.sqlite3`)
-- Media uploads (`media/`)
-- Python cache files (`__pycache__/`)
-- IDE files (`.vscode/`, `.idea/`)
-- OS files (`.DS_Store`, `Thumbs.db`)
-- ML model files (`*.h5`, `*.pkl`)
-
-## 📁 Project Structure
-
+### 项目结构
 ```
 EcoVision/
-├── backend/                 # Django backend
-│   ├── api/                # API application
-│   │   ├── models.py       # Database models
-│   │   ├── views.py        # API views
-│   │   ├── serializers.py  # Data serializers
-│   │   ├── cv_model.py     # Computer vision model
-│   │   └── urls.py         # API URLs
-│   ├── ecovision/          # Django project settings
-│   ├── manage.py           # Django management script
-│   └── requirements.txt    # Python dependencies
-├── frontend/               # Vue.js frontend
-│   ├── src/
-│   │   ├── views/          # Vue components/pages
-│   │   ├── router/         # Vue router configuration
-│   │   ├── App.vue         # Main app component
-│   │   └── main.js         # App entry point
-│   ├── package.json        # Node.js dependencies
-│   └── vite.config.js      # Vite configuration
-└── README.md              # This file
+├── backend/                 # Django 后端
+│   ├── api/                # API 应用
+│   ├── ecovision/          # 项目设置
+│   └── manage.py           # Django 管理脚本
+├── frontend/               # Three.js 前端
+│   ├── src/                # 源代码
+│   ├── index.html          # 主页面
+│   └── package.json        # 依赖配置
+├── model_training/         # 模型训练
+└── start-servers.sh        # 启动脚本
 ```
 
-## 🔧 API Endpoints
+### 添加新功能
+1. 后端：在 `backend/api/views.py` 中添加新的视图函数
+2. 前端：在 `frontend/src/main.js` 中添加新的交互逻辑
+3. 数据库：在 `backend/api/models.py` 中定义新的模型
 
-### Trash Detection
-- `POST /api/detections/upload_and_detect/` - Upload image for detection
-- `GET /api/detections/` - List all detections
-- `GET /api/detections/recent_detections/` - Get recent detections
-- `GET /api/detections/statistics/` - Get detection statistics
+## 🎯 服务器地址
+- **前端**: http://localhost:3000
+- **后端**: http://localhost:8000
+- **管理界面**: http://localhost:8000/admin
 
-### Cleanup Tasks
-- `GET /api/tasks/` - List all tasks
-- `GET /api/tasks/pending_tasks/` - Get pending tasks
-- `PATCH /api/tasks/{id}/update_status/` - Update task status
-- `PATCH /api/tasks/{id}/` - Update task details
+## 🛠️ 功能演示
+1. **垃圾检测**: 
+   - 点击"垃圾检测"按钮
+   - 允许相机权限
+   - 拍照上传，系统将自动识别垃圾类型
 
-### Trash Categories
-- `GET /api/categories/` - List trash categories
-- `POST /api/categories/` - Create new category
+2. **机器人服务**:
+   - 点击"联系机器人"按钮
+   - 系统将分配机器人并提供预计到达时间
 
-## 🤖 Computer Vision Model
+3. **商业合作**:
+   - 点击"商业合作"按钮
+   - 填写合作信息并提交
 
-The current implementation includes a mock detection model for demonstration. To use a real trained model:
+## 🎨 自定义配置
+- 修改 `frontend/src/main.js` 中的颜色和动画参数
+- 调整 `frontend/index.html` 中的 UI 样式
+- 在 `backend/api/views.py` 中自定义 API 响应
 
-1. Replace the mock model in `backend/api/cv_model.py`
-2. Add your trained model file to the project
-3. Update the `load_model()` and `detect_trash()` methods
+## 📝 许可证
+本项目使用 MIT 许可证 - 查看 LICENSE 文件了解详情
 
-## 🔐 Environment Variables
-
-Create a `.env` file in the backend directory:
-
-```bash
-cp backend/.env.example backend/.env
-```
-
-Edit the `.env` file and update the values as needed:
-
-```env
-SECRET_KEY=your-secret-key-here-change-this-in-production
-DEBUG=True
-MONGODB_URL=mongodb://localhost:27017
-```
-
-**Important:** Never commit `.env` files to version control. They are already included in `.gitignore`.
-
-## 🎨 Customization
-
-### Adding New Trash Categories
-1. Update the `class_names` in `cv_model.py`
-2. Add corresponding colors in the `colors` dictionary
-3. Update the frontend `objectColors` in Vue components
-
-### Styling
-- Modify the global styles in `frontend/src/App.vue`
-- Update component-specific styles in each Vue file
-- The design uses a glassmorphism aesthetic with gradient backgrounds
-
-## 🚀 Deployment
-
-### Backend (Django)
-1. Set `DEBUG=False` in production
-2. Configure production database settings
-3. Set up static file serving
-4. Use a production WSGI server (gunicorn, uWSGI)
-
-### Frontend (Vue.js)
-1. Build the production bundle: `npm run build`
-2. Serve the `dist` folder with a web server
-3. Configure proxy for API calls
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🙏 Acknowledgments
-
-- TensorFlow and OpenCV teams for the ML frameworks
-- Vue.js and Django communities for the excellent frameworks
-- All contributors and testers
+## 📞 联系方式
+如有问题或建议，请联系开发团队。
 
 ---
-
-**EcoVision** - Making cities cleaner with AI 🌱
+*�� 让我们一起为环保事业贡献力量！*

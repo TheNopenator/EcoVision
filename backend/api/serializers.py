@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import TrashDetection, TrashCategory, CleanupTask
+from .models import TrashDetection, TrashCategory, CleanupTask, RobotRequest, CooperationRequest
 
 class TrashDetectionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,3 +21,13 @@ class CleanupTaskSerializer(serializers.ModelSerializer):
 class ImageUploadSerializer(serializers.Serializer):
     image = serializers.ImageField()
     location = serializers.JSONField(required=False)
+
+class RobotRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RobotRequest
+        fields = '__all__'
+
+class CooperationRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CooperationRequest
+        fields = '__all__'
