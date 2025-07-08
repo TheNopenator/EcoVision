@@ -14,10 +14,10 @@ class ScrollManager {
         this.scrollToTopButton = document.createElement('button')
         this.scrollToTopButton.className = 'scroll-to-top'
         this.scrollToTopButton.innerHTML = '↑'
-        this.scrollToTopButton.setAttribute('aria-label', '返回顶部')
-        this.scrollToTopButton.setAttribute('title', '返回顶部')
+        this.scrollToTopButton.setAttribute('aria-label', 'Back to top')
+        this.scrollToTopButton.setAttribute('title', 'Back to top')
         
-        // 添加点击事件
+        // Add click event
         this.scrollToTopButton.addEventListener('click', () => {
             this.scrollToTop()
         })
@@ -25,7 +25,7 @@ class ScrollManager {
         document.body.appendChild(this.scrollToTopButton)
     }
     
-    // 设置当前页面的滚动容器
+    // Set current page scroll container
     setCurrentPageContainer(container) {
         this.currentPageContainer = container
         this.setupScrollListener()
@@ -60,7 +60,7 @@ class ScrollManager {
             behavior: 'smooth'
         })
         
-        // 添加滚动动画效果
+        // Add scroll animation effect
         this.addScrollEffect()
     }
     
@@ -106,22 +106,22 @@ class ScrollManager {
         }, 800)
     }
     
-    // 设置键盘导航
+    // Setup keyboard navigation
     setupKeyboardNavigation() {
         document.addEventListener('keydown', (e) => {
-            // Home键返回顶部
+            // Home key to go back to top
             if (e.key === 'Home' && this.currentPageContainer) {
                 e.preventDefault()
                 this.scrollToTop()
             }
             
-            // End键滚动到底部
+            // End key to scroll to bottom
             if (e.key === 'End' && this.currentPageContainer) {
                 e.preventDefault()
                 this.scrollToBottom()
             }
             
-            // Page Up/Down 滚动
+            // Page Up/Down scrolling
             if (e.key === 'PageUp' && this.currentPageContainer) {
                 e.preventDefault()
                 this.scrollPage(-1)
@@ -156,13 +156,13 @@ class ScrollManager {
         })
     }
     
-    // 隐藏滚动按钮
+    // Hide scroll button
     hideScrollButton() {
         this.scrollToTopButton.classList.remove('visible')
         this.currentPageContainer = null
     }
     
-    // 平滑滚动到指定元素
+    // Smooth scroll to specified element
     scrollToElement(selector) {
         if (!this.currentPageContainer) return
         
@@ -175,7 +175,7 @@ class ScrollManager {
         }
     }
     
-    // 添加滚动进度条
+    // Add scroll progress bar
     addScrollProgress(color = '#2196F3') {
         const progressBar = document.createElement('div')
         progressBar.className = 'scroll-progress'
@@ -205,7 +205,7 @@ class ScrollManager {
         return progressBar
     }
     
-    // 移除滚动进度条
+    // Remove scroll progress bar
     removeScrollProgress() {
         const progressBar = document.querySelector('.scroll-progress')
         if (progressBar) {

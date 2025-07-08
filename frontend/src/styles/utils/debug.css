@@ -1,0 +1,26 @@
+/* Debug styles for layering issues */
+/* Uncomment these styles to debug z-index layering */
+
+/*
+#canvas-container {
+    border: 2px solid red !important;
+}
+
+#ui-overlay {
+    border: 2px solid blue !important;
+}
+
+.title {
+    background: rgba(255, 0, 0, 0.5) !important;
+    border: 2px solid yellow !important;
+}
+
+.subtitle {
+    background: rgba(0, 255, 0, 0.5) !important;
+    border: 2px solid cyan !important;
+}
+
+canvas {
+    border: 3px solid orange !important;
+}
+*/ 

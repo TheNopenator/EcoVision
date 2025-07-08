@@ -1,0 +1,621 @@
+/* Robot Contact Page Styles */
+.robot-contact-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(33, 150, 243, 0.1) 0%, rgba(10, 10, 10, 0.95) 100%);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+.robot-contact-page .page-container {
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20px;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: #2196F3 rgba(0, 0, 0, 0.3);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 101;
+}
+
+.robot-contact-page .page-container::-webkit-scrollbar {
+    width: 10px;
+}
+
+.robot-contact-page .page-container::-webkit-scrollbar-track {
+    background: rgba(33, 150, 243, 0.1);
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.robot-contact-page .page-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #2196F3, #42A5F5);
+    border-radius: 10px;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.robot-contact-page .page-container::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #42A5F5, #64B5F6);
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(33, 150, 243, 0.5);
+}
+
+.robot-contact-page .page-header {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 80px;
+}
+
+.robot-contact-page .back-button {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(33, 150, 243, 0.2);
+    border: 2px solid rgba(33, 150, 243, 0.5);
+    color: #fff;
+    padding: 15px 25px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    z-index: 102;
+}
+
+.robot-contact-page .back-button:hover {
+    background: rgba(33, 150, 243, 0.4);
+    border-color: rgba(33, 150, 243, 0.8);
+    transform: translateY(-50%) translateX(-5px);
+    box-shadow: 0 5px 20px rgba(33, 150, 243, 0.3);
+}
+
+.robot-contact-page .page-title {
+    font-size: 48px;
+    font-weight: bold;
+    text-align: center;
+    background: linear-gradient(45deg, #2196F3, #03A9F4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+    text-shadow: 0 0 30px rgba(33, 150, 243, 0.5);
+    position: relative;
+    z-index: 105;
+    backdrop-filter: blur(2px);
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+.robot-contact-page .page-title::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    z-index: -1;
+}
+
+.robot-contact-page .main-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    width: 100%;
+    max-width: 1400px;
+    margin-bottom: 30px;
+}
+
+.robot-panel {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 30px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 102;
+}
+
+.request-form {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 30px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 102;
+}
+
+.robot-avatar {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.robot-body {
+    width: 120px;
+    height: 140px;
+    margin: 0 auto 15px;
+    position: relative;
+    animation: robotFloat 3s ease-in-out infinite;
+}
+
+@keyframes robotFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.robot-head {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #2196F3, #1976D2);
+    border-radius: 20px;
+    margin: 0 auto 10px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+}
+
+.robot-eyes {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 15px 0;
+}
+
+.eye {
+    width: 12px;
+    height: 12px;
+    background: #FFF;
+    border-radius: 50%;
+    animation: robotBlink 3s infinite;
+}
+
+@keyframes robotBlink {
+    0%, 90%, 100% { transform: scaleY(1); }
+    95% { transform: scaleY(0.1); }
+}
+
+.robot-mouth {
+    width: 30px;
+    height: 15px;
+    background: #333;
+    border-radius: 0 0 15px 15px;
+    margin: 5px auto;
+}
+
+.robot-chest {
+    width: 60px;
+    height: 50px;
+    background: linear-gradient(135deg, #1976D2, #1565C0);
+    border-radius: 10px;
+    margin: 0 auto;
+    position: relative;
+    box-shadow: 0 3px 10px rgba(33, 150, 243, 0.2);
+}
+
+.power-indicator {
+    width: 20px;
+    height: 20px;
+    background: #4CAF50;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: powerPulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes powerPulse {
+    from { box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); }
+    to { box-shadow: 0 0 20px rgba(76, 175, 80, 0.8); }
+}
+
+.robot-status {
+    font-size: 16px;
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+.request-form h3 {
+    color: #2196F3;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: bold;
+}
+
+.location-display {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.location-icon {
+    font-size: 18px;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.icon-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.trash-types {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 10px;
+    transition: background 0.3s;
+}
+
+.checkbox-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.checkbox-item input[type="checkbox"] {
+    display: none;
+}
+
+.checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    position: relative;
+    transition: all 0.3s;
+}
+
+.checkbox-item input[type="checkbox"]:checked + .checkmark {
+    background: #2196F3;
+    border-color: #2196F3;
+}
+
+.checkbox-item input[type="checkbox"]:checked + .checkmark:after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: bold;
+}
+
+.priority-selector {
+    display: flex;
+    gap: 10px;
+}
+
+.priority-selector input[type="radio"] {
+    display: none;
+}
+
+.priority-btn {
+    flex: 1;
+    padding: 15px 20px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.priority-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.priority-selector input[type="radio"]:checked + .priority-btn.low {
+    background: rgba(76, 175, 80, 0.2);
+    border-color: #4CAF50;
+    color: #4CAF50;
+}
+
+.priority-selector input[type="radio"]:checked + .priority-btn.medium {
+    background: rgba(255, 193, 7, 0.2);
+    border-color: #FFC107;
+    color: #FFC107;
+}
+
+.priority-selector input[type="radio"]:checked + .priority-btn.high {
+    background: rgba(244, 67, 54, 0.2);
+    border-color: #F44336;
+    color: #F44336;
+}
+
+textarea {
+    width: 100%;
+    min-height: 80px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 15px;
+    color: white;
+    font-family: inherit;
+    resize: vertical;
+}
+
+textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.send-btn {
+    width: 100%;
+    background: linear-gradient(45deg, #2196F3, #1976D2);
+    border: none;
+    border-radius: 15px;
+    padding: 20px;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+}
+
+.send-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4);
+}
+
+.status-panel {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 30px;
+    backdrop-filter: blur(15px);
+}
+
+.status-panel h3 {
+    color: #2196F3;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.robot-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.robot-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 20px;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.robot-card:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.robot-card.active {
+    border-color: #2196F3;
+    box-shadow: 0 0 20px rgba(33, 150, 243, 0.3);
+}
+
+.robot-mini-avatar {
+    font-size: 32px;
+}
+
+.robot-info {
+    flex: 1;
+}
+
+.robot-name {
+    font-weight: bold;
+    color: white;
+    margin-bottom: 5px;
+}
+
+.robot-location {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.robot-battery {
+    color: #4CAF50;
+    font-size: 14px;
+}
+
+.robot-status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+.robot-status-indicator.online {
+    background: #4CAF50;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+    animation: statusPulse 2s ease-in-out infinite;
+}
+
+.robot-status-indicator.maintenance {
+    background: #FF9800;
+    animation: statusBlink 1s ease-in-out infinite alternate;
+}
+
+@keyframes statusPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+@keyframes statusBlink {
+    from { opacity: 1; }
+    to { opacity: 0.3; }
+}
+
+.requests-history {
+    width: 100%;
+    max-width: 1400px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 30px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 102;
+}
+
+.requests-history h3 {
+    color: #2196F3;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.requests-container {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.no-requests {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    padding: 40px;
+}
+
+.empty-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+.request-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 15px;
+    animation: slideIn 0.5s ease-out;
+}
+
+.request-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.request-id {
+    font-weight: bold;
+    color: #2196F3;
+}
+
+.request-status {
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.request-status.pending {
+    background: rgba(255, 193, 7, 0.2);
+    color: #FFC107;
+}
+
+.request-status.dispatched {
+    background: rgba(33, 150, 243, 0.2);
+    color: #2196F3;
+}
+
+.request-status.completed {
+    background: rgba(76, 175, 80, 0.2);
+    color: #4CAF50;
+}
+
+.request-details {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .robot-contact-page .main-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .robot-contact-page .page-title {
+        font-size: 32px;
+    }
+    
+    .trash-types {
+        grid-template-columns: 1fr;
+    }
+    
+    .priority-selector {
+        flex-direction: column;
+    }
+} 

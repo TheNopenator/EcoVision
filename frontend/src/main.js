@@ -1,16 +1,22 @@
 import * as THREE from 'three'
 import { gsap } from 'gsap'
 
-// 导入页面
-import TrashDetectionPage from './pages/TrashDetectionPage.js'
-import RobotContactPage from './pages/RobotContactPage.js'
-import CooperationPage from './pages/CooperationPage.js'
-// 导入有意义的几何体工具类
-import MeaningfulGeometries from './utils/MeaningfulGeometries.js'
-// 导入滚动管理器
-import ScrollManager from './utils/ScrollManager.js'
-// 导入垃圾元素管理器
-import TrashElementsManager from './utils/TrashElementsManager.js'
+// Import configuration
+import { APP_CONFIG } from './config'
+
+// Import pages
+import { 
+    TrashDetectionPage, 
+    RobotContactPage, 
+    CooperationPage 
+} from './pages'
+
+// Import components
+import { 
+    MeaningfulGeometries,
+    ScrollManager,
+    TrashElementsManager 
+} from './components'
 
 class EcoVisionApp {
     constructor() {
@@ -35,78 +41,75 @@ class EcoVisionApp {
     }
     
     init() {
-        // 场景设置
+        // Scene setup
         this.scene = new THREE.Scene()
-        this.scene.background = new THREE.Color(0x0a0a0a)
+        this.scene.background = new THREE.Color(APP_CONFIG.scene.backgroundColor)
         
-        // 相机设置
-        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-        this.camera.position.set(0, 0, 5)
+        // Camera setup
+        const { fov, near, far, position } = APP_CONFIG.scene.camera
+        this.camera = new THREE.PerspectiveCamera(fov, window.innerWidth / window.innerHeight, near, far)
+        this.camera.position.set(position.x, position.y, position.z)
         
-        // 渲染器设置
-        this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+        // Renderer setup
+        const { antialias, alpha, shadowMapEnabled, shadowMapType } = APP_CONFIG.scene.renderer
+        this.renderer = new THREE.WebGLRenderer({ antialias, alpha })
         this.renderer.setSize(window.innerWidth, window.innerHeight)
         this.renderer.setPixelRatio(window.devicePixelRatio)
-        this.renderer.shadowMap.enabled = true
-        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
+        this.renderer.shadowMap.enabled = shadowMapEnabled
+        this.renderer.shadowMap.type = THREE[shadowMapType]
         
         const container = document.getElementById('canvas-container')
         container.appendChild(this.renderer.domElement)
         
-        // 添加光源
+        // Add lights
         this.setupLights()
         
-        // 创建动态背景
+        // Create dynamic background
         this.createDynamicBackground()
         
-        // 创建粒子系统
+        // Create particle system
         this.createParticles()
         
-        // 创建3D按钮
+        // Create 3D buttons
         this.create3DButtons()
         
-        // 创建垃圾元素管理器
+        // Create trash elements manager
         this.trashElementsManager = new TrashElementsManager(this.scene)
         
-        // 为按钮创建垃圾分类环绕动画
+        // Create trash classification ring animations for buttons
         this.createTrashClassificationRings()
         
-        // 显示修复完成通知
+        // Show fixed notification
         this.showFixedNotification()
         
-        // 处理窗口大小变化
+        // Handle window resize
         window.addEventListener('resize', () => this.onWindowResize())
     }
     
     setupLights() {
-        // 环境光
-        const ambientLight = new THREE.AmbientLight(0x404040, 0.3)
+        // Ambient light
+        const { ambient, directional, pointLights } = APP_CONFIG.lighting
+        const ambientLight = new THREE.AmbientLight(ambient.color, ambient.intensity)
         this.scene.add(ambientLight)
         
-        // 主要方向光
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8)
-        directionalLight.position.set(5, 5, 5)
+        // Main directional light
+        const directionalLight = new THREE.DirectionalLight(directional.color, directional.intensity)
+        directionalLight.position.set(...directional.position)
         directionalLight.castShadow = true
-        directionalLight.shadow.mapSize.width = 2048
-        directionalLight.shadow.mapSize.height = 2048
+        directionalLight.shadow.mapSize.width = directional.shadowMapSize
+        directionalLight.shadow.mapSize.height = directional.shadowMapSize
         this.scene.add(directionalLight)
         
-        // 动态彩色光源
-        const lights = [
-            { color: 0x4CAF50, position: [-3, 2, 2] },
-            { color: 0x2196F3, position: [0, 2, 2] },
-            { color: 0xFF9800, position: [3, 2, 2] }
-        ]
-        
-        lights.forEach(lightData => {
-            const light = new THREE.PointLight(lightData.color, 0.6, 10)
+        // Dynamic colored lights
+        pointLights.forEach(lightData => {
+            const light = new THREE.PointLight(lightData.color, lightData.intensity, lightData.distance)
             light.position.set(...lightData.position)
             this.scene.add(light)
         })
     }
     
     createDynamicBackground() {
-        // 创建流动的背景网格
+        // Create flowing background grid
         const geometry = new THREE.PlaneGeometry(20, 20, 50, 50)
         const material = new THREE.ShaderMaterial({
             uniforms: {
@@ -159,31 +162,26 @@ class EcoVisionApp {
     }
     
     createParticles() {
-        const particleCount = 2000
+        const { count, colors: colorValues, sizeRange, spread } = APP_CONFIG.particles
         const geometry = new THREE.BufferGeometry()
-        const positions = new Float32Array(particleCount * 3)
-        const colors = new Float32Array(particleCount * 3)
-        const sizes = new Float32Array(particleCount)
+        const positions = new Float32Array(count * 3)
+        const colors = new Float32Array(count * 3)
+        const sizes = new Float32Array(count)
         
-        const colors_array = [
-            new THREE.Color(0x4CAF50),
-            new THREE.Color(0x2196F3),
-            new THREE.Color(0xFF9800),
-            new THREE.Color(0xFFFFFF)
-        ]
+        const colors_array = colorValues.map(color => new THREE.Color(color))
         
-        for (let i = 0; i < particleCount; i++) {
+        for (let i = 0; i < count; i++) {
             const i3 = i * 3
-            positions[i3] = (Math.random() - 0.5) * 30
-            positions[i3 + 1] = (Math.random() - 0.5) * 30
-            positions[i3 + 2] = (Math.random() - 0.5) * 30
+            positions[i3] = (Math.random() - 0.5) * spread.x
+            positions[i3 + 1] = (Math.random() - 0.5) * spread.y
+            positions[i3 + 2] = (Math.random() - 0.5) * spread.z
             
             const color = colors_array[Math.floor(Math.random() * colors_array.length)]
             colors[i3] = color.r
             colors[i3 + 1] = color.g
             colors[i3 + 2] = color.b
             
-            sizes[i] = Math.random() * 0.1 + 0.05
+            sizes[i] = Math.random() * (sizeRange.max - sizeRange.min) + sizeRange.min
         }
         
         geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
@@ -227,35 +225,7 @@ class EcoVisionApp {
     }
     
     create3DButtons() {
-        const buttonData = [
-            { 
-                id: 'trash-detection', 
-                position: [-2.3, 0.6, 0], 
-                color: 0x4CAF50,
-                hoverColor: 0x66BB6A,
-                label: 'Trash Detection',
-                icon: '🗑️',
-                geometryType: 'trashcan'
-            },
-            { 
-                id: 'robot-contact', 
-                position: [0, 0.6, 0], 
-                color: 0x2196F3,
-                hoverColor: 0x42A5F5,
-                label: 'Contact Robot',
-                icon: '🤖',
-                geometryType: 'robot'
-            },
-            { 
-                id: 'cooperation', 
-                position: [2.3, 0.6, 0], 
-                color: 0xFF9800,
-                hoverColor: 0xFFA726,
-                label: 'Cooperation',
-                icon: '🤝',
-                geometryType: 'handshake'
-            }
-        ]
+        const buttonData = APP_CONFIG.buttons
         
         buttonData.forEach(data => {
             const group = new THREE.Group()
@@ -351,13 +321,13 @@ class EcoVisionApp {
     getLabelOffsetForGeometry(geometryType) {
         switch (geometryType) {
             case 'trashcan':
-                return { y: 0.8, z: 0.2 }
+                return { y: 2.0, z: 0.8 }  // Increased distance to avoid overlap
             case 'robot':
-                return { y: 1.0, z: 0.2 }
+                return { y: 2.2, z: 0.8 }  // Increased distance for robot head
             case 'handshake':
-                return { y: 0.6, z: 0.2 }
+                return { y: 1.8, z: 0.8 }  // Increased distance for handshake model
             default:
-                return { y: 0, z: 0.2 }
+                return { y: 1.5, z: 0.8 }
         }
     }
     
@@ -385,7 +355,7 @@ class EcoVisionApp {
         context.fillRect(0, 0, canvas.width, canvas.height)
         
         // 绘制半透明背景
-        context.fillStyle = 'rgba(0, 0, 0, 0.7)'
+        context.fillStyle = 'rgba(0, 0, 0, 0.9)'
         context.fillRect(0, 0, canvas.width, canvas.height)
         
         // 绘制图标
@@ -393,11 +363,15 @@ class EcoVisionApp {
         context.fillStyle = '#ffffff'
         context.textAlign = 'center'
         context.textBaseline = 'middle'
+        context.shadowColor = 'rgba(0, 0, 0, 0.8)'
+        context.shadowBlur = 10
         context.fillText(iconText, canvas.width / 2, canvas.height / 2 - 30)
         
         // 绘制文字
-        context.font = 'bold 28px Arial'
+        context.font = 'bold 32px Arial'
         context.fillStyle = '#ffffff'
+        context.shadowColor = 'rgba(0, 0, 0, 0.8)'
+        context.shadowBlur = 8
         context.fillText(labelText, canvas.width / 2, canvas.height / 2 + 30)
         
         // 绘制发光边框
@@ -417,17 +391,25 @@ class EcoVisionApp {
         const texture = new THREE.CanvasTexture(canvas)
         texture.needsUpdate = true
         
-        // 创建文字平面
-        const labelGeometry = new THREE.PlaneGeometry(1.8, 0.9)
+        // 创建文字平面 - 使用更好的材质设置确保可见性
+        const labelGeometry = new THREE.PlaneGeometry(2.8, 1.4)  // Larger for better visibility
         const labelMaterial = new THREE.MeshBasicMaterial({
             map: texture,
             transparent: true,
-            opacity: 1.0
+            opacity: 1.0,
+            depthTest: false,  // Always render on top
+            depthWrite: false,  // Don't write to depth buffer
+            side: THREE.DoubleSide  // Ensure visibility from all angles
         })
         
         const labelMesh = new THREE.Mesh(labelGeometry, labelMaterial)
         labelMesh.position.y = offset.y
         labelMesh.position.z = offset.z
+        labelMesh.renderOrder = 1000  // Highest render order for visibility
+        
+        // Make label always face camera
+        labelMesh.userData.isLabel = true
+        labelMesh.userData.originalZ = offset.z
         
         group.add(labelMesh)
         
@@ -455,7 +437,7 @@ class EcoVisionApp {
             this.onMouseClick(event)
         })
         
-        // 2D UI按钮已移除，仅使用3D交互
+        // 2D UI buttons removed, only 3D interaction
     }
     
     onMouseClick(event) {
@@ -665,6 +647,25 @@ class EcoVisionApp {
             this.pages[this.currentPage].update(time)
         }
         
+        // Make labels always face camera (billboard effect) and ensure proper positioning
+        this.buttons3D.forEach(button => {
+            const labelMesh = button.userData.labelMesh
+            if (labelMesh?.userData.isLabel) {
+                labelMesh.lookAt(this.camera.position)
+                
+                // Ensure label stays at proper distance from camera
+                const distanceToCamera = this.camera.position.distanceTo(button.position)
+                if (distanceToCamera > 15) {
+                    labelMesh.scale.setScalar(distanceToCamera / 15)
+                } else {
+                    labelMesh.scale.setScalar(1)
+                }
+                
+                // Ensure label is always visible
+                labelMesh.material.opacity = Math.min(1.0, Math.max(0.8, 15 / distanceToCamera))
+            }
+        })
+        
         this.renderer.render(this.scene, this.camera)
     }
     
@@ -705,7 +706,7 @@ class EcoVisionApp {
         
         const intersects = this.raycaster.intersectObjects(buttonMeshes)
         
-        // 找到悬停的按钮组
+        // Find hovered button group
         let hoveredButton = null
         if (intersects.length > 0) {
             const hoveredMesh = intersects[0].object
@@ -723,13 +724,13 @@ class EcoVisionApp {
             const isHovered = hoveredButton === buttonGroup
             
             if (isHovered) {
-                // 悬停效果
+                // Hover effect
                 gsap.to(buttonGroup.position, {
                     y: originalPosition[1] + 0.2,
                     duration: 0.3
                 })
                 
-                // 更新几何体组中所有材质颜色
+                // Update all material colors in geometry group
                 button.traverse((child) => {
                     if (child instanceof THREE.Mesh && child.material) {
                         gsap.to(child.material.color, {
@@ -746,7 +747,7 @@ class EcoVisionApp {
                     duration: 0.3
                 })
                 
-                // 连接线发光效果
+                // Connection line glow effect
                 if (connection) {
                     gsap.to(connection.material, {
                         opacity: 1.0,
@@ -759,7 +760,7 @@ class EcoVisionApp {
                     })
                 }
                 
-                // 标签发光效果
+                // Label glow effect
                 if (labelMesh) {
                     const originalZ = labelMesh.userData?.originalZ || labelMesh.position.z
                     if (!labelMesh.userData) labelMesh.userData = {}
@@ -781,17 +782,17 @@ class EcoVisionApp {
                     })
                 }
                 
-                // 脉冲动画
+                // Pulse animation
                 const scale = 1 + Math.sin(Date.now() * 0.005) * 0.1
                 ring.scale.set(scale, scale, scale)
             } else {
-                // 恢复原状
+                // Restore to original state
                 gsap.to(buttonGroup.position, {
                     y: originalPosition[1],
                     duration: 0.3
                 })
                 
-                // 恢复几何体组中所有材质颜色
+                // Restore all material colors in geometry group
                 button.traverse((child) => {
                     if (child instanceof THREE.Mesh && child.material) {
                         gsap.to(child.material.color, {
@@ -808,7 +809,7 @@ class EcoVisionApp {
                     duration: 0.3
                 })
                 
-                // 恢复连接线
+                // Restore connection line
                 if (connection) {
                     gsap.to(connection.material, {
                         opacity: 0.6,
@@ -821,7 +822,7 @@ class EcoVisionApp {
                     })
                 }
                 
-                // 恢复标签
+                // Restore label
                 if (labelMesh) {
                     const originalZ = labelMesh.userData?.originalZ || labelMesh.position.z
                     
@@ -885,13 +886,13 @@ class EcoVisionApp {
         
         document.body.appendChild(notification)
         
-        // 显示动画
+        // Show animation
         setTimeout(() => {
             notification.style.opacity = '1'
             notification.style.transform = 'translateX(0)'
         }, 100)
         
-        // 自动隐藏
+        // Auto hide
         setTimeout(() => {
             notification.style.opacity = '0'
             notification.style.transform = 'translateX(100%)'
@@ -914,17 +915,17 @@ class EcoVisionApp {
             cancelAnimationFrame(this.animationFrame)
         }
         
-        // 清理所有页面
+        // Clean up all pages
         Object.values(this.pages).forEach(page => {
             if (page.destroy) page.destroy()
         })
         
-        // 清理垃圾元素管理器
+        // Clean up trash elements manager
         if (this.trashElementsManager) {
             this.trashElementsManager.destroy()
         }
         
-        // 清理Three.js资源
+        // Clean up Three.js resources
         this.scene.traverse((child) => {
             if (child.geometry) child.geometry.dispose()
             if (child.material) {
@@ -940,5 +941,5 @@ class EcoVisionApp {
     }
 }
 
-// 初始化应用
-window.ecoVisionApp = new EcoVisionApp() 
+// Initialize application
+window.ecoVisionApp = new EcoVisionApp()

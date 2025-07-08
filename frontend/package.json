@@ -4,7 +4,7 @@
   "description": "EcoVision 3D Frontend with Three.js",
   "main": "index.js",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite  --host",
     "build": "vite build",
     "preview": "vite preview"
   },

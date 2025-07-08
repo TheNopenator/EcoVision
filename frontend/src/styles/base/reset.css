@@ -1,0 +1,24 @@
+/* CSS Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: #0a0a0a;
+    color: #fff;
+    overflow: hidden;
+}
+
+/* Ensure canvas elements respect z-index */
+canvas {
+    display: block;
+    outline: none;
+}
+
+/* Prevent any WebGL contexts from overriding z-index */
+canvas[data-engine="three.js"] {
+    z-index: 1 !important;
+} 

@@ -18,7 +18,7 @@ class TrashElementsManager {
         this.createRecyclingIndicators()
     }
     
-    // 创建漂浮的垃圾3D模型
+    // Create floating trash 3D models
     createFloatingTrash() {
         const trashTypes = [
             { 
@@ -63,7 +63,7 @@ class TrashElementsManager {
             const trashType = trashTypes[Math.floor(Math.random() * trashTypes.length)]
             const trashItem = this.createTrashItem(trashType)
             
-            // 随机位置分布在场景周围
+            // Random position distribution around the scene
             const angle = (i / 20) * Math.PI * 2
             const radius = 8 + Math.random() * 4
             trashItem.position.set(
@@ -72,7 +72,7 @@ class TrashElementsManager {
                 Math.sin(angle) * radius
             )
             
-            // 随机旋转
+            // Random rotation
             trashItem.rotation.set(
                 Math.random() * Math.PI * 2,
                 Math.random() * Math.PI * 2,
@@ -82,7 +82,7 @@ class TrashElementsManager {
             this.floatingTrash.push(trashItem)
             this.scene.add(trashItem)
             
-            // 添加漂浮动画
+            // Add floating animation
             this.animateFloatingTrash(trashItem, i)
         }
     }
@@ -90,7 +90,7 @@ class TrashElementsManager {
     createTrashItem(trashType) {
         const group = new THREE.Group()
         
-        // 主体几何体
+        // Main geometry
         let geometry
         switch (trashType.type) {
             case 'bottle':
@@ -125,7 +125,7 @@ class TrashElementsManager {
         const mesh = new THREE.Mesh(geometry, material)
         group.add(mesh)
         
-        // 添加发光外层
+        // Add glow outer layer
         const glowGeometry = new THREE.SphereGeometry(0.4, 8, 8)
         const glowMaterial = new THREE.MeshBasicMaterial({
             color: trashType.color,
@@ -136,7 +136,7 @@ class TrashElementsManager {
         const glow = new THREE.Mesh(glowGeometry, glowMaterial)
         group.add(glow)
         
-        // 创建图标纹理
+        // Create icon texture
         const iconTexture = this.createIconTexture(trashType.icon, trashType.color)
         const iconGeometry = new THREE.PlaneGeometry(0.3, 0.3)
         const iconMaterial = new THREE.MeshBasicMaterial({
@@ -160,17 +160,17 @@ class TrashElementsManager {
         canvas.width = 128
         canvas.height = 128
         
-        // 清空画布
+        // Clear canvas
         context.fillStyle = 'rgba(0, 0, 0, 0)'
         context.fillRect(0, 0, canvas.width, canvas.height)
         
-        // 绘制圆形背景
+        // Draw circular background
         context.fillStyle = `rgba(${(color >> 16) & 255}, ${(color >> 8) & 255}, ${color & 255}, 0.8)`
         context.beginPath()
         context.arc(64, 64, 50, 0, Math.PI * 2)
         context.fill()
         
-        // 绘制图标
+        // Draw icon
         context.font = '48px Arial'
         context.fillStyle = '#ffffff'
         context.textAlign = 'center'
@@ -187,7 +187,7 @@ class TrashElementsManager {
         const floatHeight = 0.5 + Math.random() * 0.5
         const floatSpeed = 1 + Math.random() * 2
         
-        // 上下漂浮动画
+        // Up and down floating animation
         gsap.to(trashItem.position, {
             y: originalY + floatHeight,
             duration: floatSpeed,
@@ -197,7 +197,7 @@ class TrashElementsManager {
             delay: Math.random() * 2
         })
         
-        // 缓慢旋转
+        // Slow rotation
         gsap.to(trashItem.rotation, {
             y: Math.PI * 2,
             duration: 10 + Math.random() * 10,
@@ -205,7 +205,7 @@ class TrashElementsManager {
             ease: "none"
         })
         
-        // 轻微缩放脉冲
+        // Subtle scaling pulse
         gsap.to(trashItem.scale, {
             x: trashItem.userData.originalScale * 1.1,
             y: trashItem.userData.originalScale * 1.1,
@@ -218,7 +218,7 @@ class TrashElementsManager {
         })
     }
     
-    // 创建垃圾分类粒子系统
+    // Create trash classification particle system
     createTrashParticles() {
         const particleCount = 1000
         const positions = new Float32Array(particleCount * 3)
@@ -226,29 +226,29 @@ class TrashElementsManager {
         const sizes = new Float32Array(particleCount)
         
         const trashColors = [
-            new THREE.Color(0x4CAF50), // 绿色 - 可回收
-            new THREE.Color(0x2196F3), // 蓝色 - 可回收
-            new THREE.Color(0xFF9800), // 橙色 - 有害垃圾
-            new THREE.Color(0xF44336), // 红色 - 有害垃圾
-            new THREE.Color(0x9C27B0), // 紫色 - 厨余垃圾
-            new THREE.Color(0x607D8B)  // 灰色 - 其他垃圾
+            new THREE.Color(0x4CAF50), // Green - Recyclable
+            new THREE.Color(0x2196F3), // Blue - Recyclable
+            new THREE.Color(0xFF9800), // Orange - Hazardous waste
+            new THREE.Color(0xF44336), // Red - Hazardous waste
+            new THREE.Color(0x9C27B0), // Purple - Kitchen waste
+            new THREE.Color(0x607D8B)  // Gray - Other waste
         ]
         
         for (let i = 0; i < particleCount; i++) {
             const i3 = i * 3
             
-            // 随机位置
+            // Random position
             positions[i3] = (Math.random() - 0.5) * 30
             positions[i3 + 1] = (Math.random() - 0.5) * 20
             positions[i3 + 2] = (Math.random() - 0.5) * 30
             
-            // 随机颜色
+            // Random color
             const color = trashColors[Math.floor(Math.random() * trashColors.length)]
             colors[i3] = color.r
             colors[i3 + 1] = color.g
             colors[i3 + 2] = color.b
             
-            // 随机大小
+            // Random size
             sizes[i] = Math.random() * 4 + 1
         }
         
@@ -305,7 +305,7 @@ class TrashElementsManager {
         this.scene.add(this.trashParticles)
     }
     
-    // 创建回收指示器
+    // Create recycling indicators
     createRecyclingIndicators() {
         const indicatorPositions = [
             { x: -6, y: 2, z: 3 },
@@ -320,7 +320,7 @@ class TrashElementsManager {
             this.recyclingIndicators.push(indicator)
             this.scene.add(indicator)
             
-            // 添加旋转动画
+            // Add rotation animation
             gsap.to(indicator.rotation, {
                 y: Math.PI * 2,
                 duration: 5 + index * 2,
@@ -333,7 +333,7 @@ class TrashElementsManager {
     createRecyclingIndicator() {
         const group = new THREE.Group()
         
-        // 回收符号的三个箭头
+        // Three arrows of recycling symbol
         const arrowGeometry = new THREE.ConeGeometry(0.1, 0.3, 6)
         const arrowMaterial = new THREE.MeshPhongMaterial({
             color: 0x4CAF50,
@@ -357,7 +357,7 @@ class TrashElementsManager {
             group.add(arrow)
         }
         
-        // 中心圆环
+        // Center ring
         const ringGeometry = new THREE.TorusGeometry(0.3, 0.05, 8, 16)
         const ringMaterial = new THREE.MeshPhongMaterial({
             color: 0x2E7D32,
@@ -370,7 +370,7 @@ class TrashElementsManager {
         return group
     }
     
-    // 为按钮添加垃圾分类环绕动画
+    // Add trash classification surrounding animation for buttons
     createTrashClassificationRing(buttonPosition, buttonType) {
         const trashIcons = {
             'trash-detection': ['🗑️', '♻️', '🌱', '🔄'],
@@ -399,7 +399,7 @@ class TrashElementsManager {
         canvas.width = 64
         canvas.height = 64
         
-        // 绘制图标
+        // Draw icon
         context.font = '32px Arial'
         context.fillStyle = '#ffffff'
         context.textAlign = 'center'
@@ -418,7 +418,7 @@ class TrashElementsManager {
         
         const iconMesh = new THREE.Mesh(geometry, material)
         
-        // 设置环绕位置
+        // Set surrounding position
         const angle = (index / 4) * Math.PI * 2
         const radius = 1.5
         iconMesh.position.set(
@@ -427,7 +427,7 @@ class TrashElementsManager {
             Math.sin(angle) * radius
         )
         
-        // 添加环绕动画
+        // Add surrounding animation
         iconMesh.userData = { 
             originalAngle: angle, 
             radius: radius, 
@@ -437,37 +437,37 @@ class TrashElementsManager {
         return iconMesh
     }
     
-    // 更新动画
+    // Update animations
     update(time) {
-        // 更新垃圾粒子
+        // Update trash particles
         if (this.trashParticles) {
             this.trashParticles.material.uniforms.time.value = time
             this.trashParticles.rotation.y += 0.001
         }
         
-        // 更新漂浮垃圾的发光效果
+        // Update glow effects of floating trash
         this.floatingTrash.forEach((trashItem, index) => {
-            const glow = trashItem.children[1] // 发光层
+            const glow = trashItem.children[1] // Glow layer
             if (glow) {
                 const pulseIntensity = 0.05 + Math.sin(time * 2 + index * 0.5) * 0.05
                 glow.material.opacity = pulseIntensity
             }
         })
         
-        // 更新回收指示器脉冲
+        // Update recycling indicator pulses
         this.recyclingIndicators.forEach((indicator, index) => {
             const scale = 1 + Math.sin(time * 1.5 + index * 0.8) * 0.1
             indicator.scale.setScalar(scale)
         })
         
-        // 更新分类环动画
+        // Update classification ring animations
         this.trashClassificationRings.forEach((ring, index) => {
             ring.rotation.y = time * 0.5 + index * 0.3
             
-            // 上下浮动
+            // Up and down floating
             ring.position.y = Math.sin(time * 0.8 + index * 1.2) * 0.1
             
-            // 更新环绕图标的位置
+            // Update surrounding icon positions
             ring.children.forEach(iconMesh => {
                 if (iconMesh.userData && iconMesh.userData.originalAngle !== undefined) {
                     const { originalAngle, radius, speed } = iconMesh.userData
@@ -480,13 +480,13 @@ class TrashElementsManager {
         })
     }
     
-    // 触发垃圾收集动画
+    // Trigger trash collection animation
     triggerTrashCollection(buttonPosition) {
-        // 找到附近的垃圾并animate to button
+        // Find nearby trash and animate to button
         this.floatingTrash.forEach((trashItem) => {
             const distance = trashItem.position.distanceTo(buttonPosition)
             if (distance < 8) {
-                // 将垃圾吸向按钮
+                // Attract trash to button
                 gsap.to(trashItem.position, {
                     x: buttonPosition.x,
                     y: buttonPosition.y + 0.5,
@@ -494,12 +494,12 @@ class TrashElementsManager {
                     duration: 1 + Math.random() * 0.5,
                     ease: "power2.in",
                     onComplete: () => {
-                        // 收集完成后重新放置垃圾
+                        // Respawn trash after collection complete
                         this.respawnTrashItem(trashItem)
                     }
                 })
                 
-                // 缩小动画
+                // Shrinking animation
                 gsap.to(trashItem.scale, {
                     x: 0,
                     y: 0,
@@ -513,7 +513,7 @@ class TrashElementsManager {
     }
     
     respawnTrashItem(trashItem) {
-        // 重新随机位置
+        // Randomize position again
         const angle = Math.random() * Math.PI * 2
         const radius = 8 + Math.random() * 4
         
@@ -523,7 +523,7 @@ class TrashElementsManager {
             Math.sin(angle) * radius
         )
         
-        // 恢复缩放
+        // Restore scale
         gsap.to(trashItem.scale, {
             x: trashItem.userData.originalScale,
             y: trashItem.userData.originalScale,
@@ -533,7 +533,7 @@ class TrashElementsManager {
         })
     }
     
-    // 清理资源
+    // Clean up resources
     destroy() {
         this.floatingTrash.forEach(trash => {
             this.scene.remove(trash)

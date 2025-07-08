@@ -1,0 +1,16 @@
+/* Import base styles */
+@import './base/reset.css';
+@import './base/scrollbar.css';
+
+/* Import component styles */
+@import './components/buttons.css';
+@import './components/layout.css';
+@import './components/modal.css';
+
+/* Import page styles */
+@import './pages/cooperation.css';
+@import './pages/robot-contact.css';
+@import './pages/trash-detection.css';
+
+/* Import utility styles */
+@import './utils/debug.css'; 
