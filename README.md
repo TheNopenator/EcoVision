@@ -237,11 +237,15 @@ sudo systemctl start ecovision
 
 - 项目主页: [EcoVision](https://github.com/your-username/ecovision)
 - 问题反馈: [Issues](https://github.com/your-username/ecovision/issues)
-- 邮箱: your-email@example.com
+- 邮箱: jmiao47@gatech.edu
 
 ## 🙏 致谢
 
 感谢所有为EcoVision项目贡献代码、建议和反馈的开发者和用户！
+
+Rick Lee, Joey Miao, and Mighty Xiaoyou Wu!!
+
+
 
 ---
 
